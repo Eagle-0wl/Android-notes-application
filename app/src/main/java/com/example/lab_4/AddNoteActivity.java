@@ -20,32 +20,31 @@ public class AddNoteActivity extends AppCompatActivity {
     private static final String FILE_NAME_number = "number.txt";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("MethodUsed", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_notes);
     }
-
     public void onBtnClickSaveNotes(View view) {
-
+        Log.d("MethodUsed", "onBtnClickSaveNotes");
         EditText editTextGet = (EditText) findViewById(R.id.etTitle);
         String title = editTextGet.getText().toString();
         editTextGet = (EditText) findViewById(R.id.etContent);
         String content = editTextGet.getText().toString();
         if (title.isEmpty() || content.isEmpty()) {
             Toast.makeText(this, "All fields must be filled", Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        else {
             try {
-                save(title, content);
+                saveNotesToFile(title, content);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Log.d("MethodUsed", "onBtnClickSaveNotes");
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-            Log.d("MethodUsed", "onBtnClickSaveNotes");
         }
     }
-
-    public void save(String title, String content) throws IOException {
+    public void saveNotesToFile(String title, String content) throws IOException {
+        Log.d("MethodUsed", "saveNotesToFile");
         int number=0;
         number=getNumberOfNotes();
         String FILENAME = "notesTitle" + String.valueOf(number) + ".txt";
@@ -71,6 +70,7 @@ public class AddNoteActivity extends AppCompatActivity {
         writeNumber(number);
     }
     public void writeNumber(int number) {
+        Log.d("MethodUsed", "writeNumber");
         String sNumber=Integer.toString(number);
         FileOutputStream fosTitle = null;
         try {
@@ -94,6 +94,7 @@ public class AddNoteActivity extends AppCompatActivity {
         }
     }
     public int getNumberOfNotes() {
+        Log.d("MethodUsed", "getNumberOfNotes");
         int number = 0;
         FileInputStream fis = null;
         try {

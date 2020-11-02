@@ -1,7 +1,6 @@
 package com.example.lab_4;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,15 +20,18 @@ public class DeleteNoteActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("MethodUsed", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_note);
     }
     @Override
     protected void onResume() {
+        Log.d("MethodUsed", "onResume");
         super.onResume();
         loadSpinner();
     }
     public void onBtnClickDeleteNote(View view) {
+        Log.d("MethodUsed", "onBtnClickDeleteNote");
         int number=getNumberOfNotes();
         Spinner spNotesList = (Spinner) findViewById(R.id.spinnerNotesList);
         String spValue = spNotesList.getSelectedItem().toString();
@@ -39,7 +41,7 @@ public class DeleteNoteActivity extends AppCompatActivity {
             if (title.equals(spValue)){
                 Log.d("onBtnClickDeleteNote2", String.valueOf(number));
                 try {
-                    RenameNotes(number-1, i);
+                    sortNotes(number-1, i);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -54,6 +56,7 @@ public class DeleteNoteActivity extends AppCompatActivity {
     }
 
     public void loadSpinner() {
+        Log.d("MethodUsed", "loadSpinner");
         ArrayList<String> notesList = new ArrayList<String>();
         String title = null;
         int number = 0;
@@ -72,6 +75,7 @@ public class DeleteNoteActivity extends AppCompatActivity {
         spNotesList.setAdapter(adapter);
     }
     public String getStringFromFile(String filePath){
+        Log.d("MethodUsed", "getStringFromFile");
         String text = null;
         FileInputStream fis = null;
         try {
@@ -100,6 +104,7 @@ public class DeleteNoteActivity extends AppCompatActivity {
         return text;
     }
     public int getNumberOfNotes() {
+        Log.d("MethodUsed", "getNumberOfNotes");
         int number = 0;
         FileInputStream fis = null;
         try {
@@ -130,6 +135,7 @@ public class DeleteNoteActivity extends AppCompatActivity {
         return number;
     }
     public void writeNumber(int number) {
+        Log.d("MethodUsed", "writeNumber");
         String sNumber=Integer.toString(number);
         FileOutputStream fosTitle = null;
         try {
@@ -152,7 +158,8 @@ public class DeleteNoteActivity extends AppCompatActivity {
             }
         }
     }
-    public void RenameNotes(int number, int renameNumber) throws IOException {
+    public void sortNotes(int number, int renameNumber) throws IOException {
+        Log.d("MethodUsed", "sortNotes");
         String title= null;
         title = getStringFromFile("notesTitle" + String.valueOf(number) + ".txt");
         String content = null;

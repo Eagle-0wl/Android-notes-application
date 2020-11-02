@@ -8,11 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -28,21 +26,24 @@ public class MainActivity<list> extends AppCompatActivity {
     List<HashMap<String, String>> notesList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("MethodUsed", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
     @Override
     protected void onResume() {
+        Log.d("MethodUsed", "onResume");
         super.onResume();
         loadListView();
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d("MethodUsed", "onCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.topmenu, menu);
         return true;
     }
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d("MethodUsed", "onOptionsItemSelected");
         int id = item.getItemId();
         if (id == R.id.addNotes) {
             openActivityAddNotes();
@@ -52,31 +53,22 @@ public class MainActivity<list> extends AppCompatActivity {
         return true;
     }
     public void openActivityAddNotes() {
+        Log.d("MethodUsed", "openActivityAddNotes");
         Intent intent = new Intent(this, AddNoteActivity.class);
         startActivity(intent);
-        Log.d("MethodUsed", "openActivityAddNotes");
     }
     public void deleteNotes() {
+        Log.d("MethodUsed", "deleteNotes");
         Intent intent = new Intent(this, DeleteNoteActivity.class);
         startActivity(intent);
-        /*for(int i=0; i<=8;i++){
-            deleteFile("notesTitle"+String.valueOf(i)+".txt");
-            deleteFile("notesContent"+String.valueOf(i)+".txt");
-        }
-        writeNumber(0);
-        Toast.makeText(MainActivity.this, "Delete notes caled", Toast.LENGTH_SHORT).show();
-        loadListView();*/
-
-        Log.d("MethodUsed", "deleteNotes");
     }
     public void loadListView() {
+        Log.d("MethodUsed", " loadListView");
         String title = null;
         String content = null;
         int number = 0;
         number = getNumberOfNotes();
-        Toast.makeText(MainActivity.this, String.valueOf(number), Toast.LENGTH_SHORT).show();
            ListView resultsListView = (ListView) findViewById(R.id.notesListView);
-
            HashMap<String, String> titleContent = new HashMap<>();
             for (int i = 0; i < number; i++) {
                 try {
@@ -92,7 +84,7 @@ public class MainActivity<list> extends AppCompatActivity {
                 titleContent.put(title, content);
             }
             List<HashMap<String, String>> listItems = notesList;
-            SimpleAdapter adapter = new SimpleAdapter(this, listItems, R.layout.noteslist, new String[]{"First Line", "Second Line"}, new int[]{R.id.text1, R.id.text2});
+            SimpleAdapter adapter = new SimpleAdapter(this, listItems, R.layout.noteslist, new String[]{"First Line", "Second Line"}, new int[]{R.id.txtTitle, R.id.txtContent});
             Iterator it = titleContent.entrySet().iterator();
             while (it.hasNext()) {
                 HashMap<String, String> resultsMap = new HashMap<>();
@@ -104,6 +96,7 @@ public class MainActivity<list> extends AppCompatActivity {
             resultsListView.setAdapter(adapter);
     }
     public String getStringFromFile(String filePath){
+        Log.d("MethodUsed", "getStringFromFile");
         String text = null;
         FileInputStream fis = null;
         try {
@@ -133,6 +126,7 @@ public class MainActivity<list> extends AppCompatActivity {
         return text;
     }
     public int getNumberOfNotes() {
+        Log.d("MethodUsed", "getNumberOfNotes");
         int number = 0;
         FileInputStream fis = null;
         try {
@@ -162,28 +156,4 @@ public class MainActivity<list> extends AppCompatActivity {
         }
         return number;
     }
-    public void writeNumber(int number) {
-        String sNumber=Integer.toString(number);
-        FileOutputStream fosTitle = null;
-        try {
-            fosTitle = openFileOutput("number.txt", MODE_PRIVATE);
-            fosTitle.write(sNumber.getBytes());
-            fosTitle.write(System.getProperty("line.separator").getBytes());
-            fosTitle.flush();
-            fosTitle.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fosTitle != null) {
-                try {
-                    fosTitle.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
 }
